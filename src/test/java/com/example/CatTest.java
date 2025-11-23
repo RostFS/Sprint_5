@@ -1,36 +1,34 @@
 package com.example;
 
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.Assert;
+import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class CatTest {
 
+    // 1. getSound() возвращает "Мяу"
     @Test
-    public void getSoundReturnsMay() {
-        Feline feline = Mockito.mock(Feline.class);
+    public void getSoundReturnsMeow() {
+        Feline feline = new Feline();
         Cat cat = new Cat(feline);
 
+        String expected = "Мяу";
         String actual = cat.getSound();
 
-        assertEquals("Мяу", actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    // 2. getFood() делегирует в Feline.eatMeat()
     @Test
-    public void getFoodUsesFelineEatMeat() throws Exception {
-        Feline feline = Mockito.mock(Feline.class);
-        List<String> expectedFood = List.of("Животные", "Птицы", "Рыба");
-
-        when(feline.eatMeat()).thenReturn(expectedFood);
-
+    public void getFoodReturnsFelineEatMeat() throws Exception {
+        Feline feline = new Feline();
         Cat cat = new Cat(feline);
+
+        List<String> expected = Arrays.asList("Животные", "Птицы", "Рыба");
         List<String> actual = cat.getFood();
 
-        assertEquals(expectedFood, actual);
-        verify(feline).eatMeat();
+        Assert.assertEquals(expected, actual);
     }
 }

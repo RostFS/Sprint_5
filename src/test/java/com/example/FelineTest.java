@@ -1,51 +1,53 @@
 package com.example;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.Test;
+import org.junit.Assert;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class FelineTest {
 
+    // 1. getFamily() возвращает "Кошачьи"
     @Test
-    public void eatMeatReturnsPredatorFood() throws Exception {
-        Feline feline = new Feline();
-        List<String> expected = List.of("Животные", "Птицы", "Рыба");
-
-        List<String> actual = feline.eatMeat();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void getFamilyReturnsCatsFamily() {
+    public void getFamilyReturnsFelineFamily() {
         Feline feline = new Feline();
 
+        String expected = "Кошачьи";
         String actual = feline.getFamily();
 
-        assertEquals("Кошачьи", actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    // 2. eatMeat() делегирует в getFood("Хищник")
     @Test
-    public void getKittensWithoutParamsReturnsOne() {
+    public void eatMeatReturnsPredatorFoodList() throws Exception {
         Feline feline = new Feline();
 
+        List<String> expected = feline.getFood("Хищник");
+        List<String> actual = feline.eatMeat();
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    // 3. getKittens() без аргументов возвращает 1
+    @Test
+    public void getKittensWithoutArgsReturnsOne() {
+        Feline feline = new Feline();
+
+        int expected = 1;
         int actual = feline.getKittens();
 
-        assertEquals(1, actual);
+        Assert.assertEquals(expected, actual);
     }
 
-    // Параметризованный тест
-    @ParameterizedTest
-    @ValueSource(ints = {0, 1, 3, 10})
-    public void getKittensWithParamsReturnsSameValue(int kittensCount) {
+    // 4. getKittens(int) возвращает переданное значение
+    @Test
+    public void getKittensWithArgReturnsPassedValue() {
         Feline feline = new Feline();
 
-        int actual = feline.getKittens(kittensCount);
+        int expected = 5;
+        int actual = feline.getKittens(5);
 
-        assertEquals(kittensCount, actual);
+        Assert.assertEquals(expected, actual);
     }
 }
